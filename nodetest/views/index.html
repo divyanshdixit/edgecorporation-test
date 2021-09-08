@@ -1,0 +1,56 @@
+,<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node test</title>
+
+</head>
+<body>
+<input type="text" size="40" placeholder="Type your email!" id="email"><br />
+<input type="password" size="40" placeholder="Type your password" id="password"><br />
+<input type="button" value="Submit" id="submit">
+
+<script>
+    
+
+    document.getElementById('submit').onclick = function(){
+        let email=document.getElementById("email").value;
+        let pass=document.getElementById("password").value;
+        if(!email) {
+            alert("please enter email")
+        } else {
+            fetch("/login",
+            {
+                method:"POST",
+                body:JSON.stringify({
+                    email,
+                    pass
+                }),
+                headers: {
+                    'Content-Type': "application/json"
+                }
+            })
+            .then(async response => {
+                try{
+                    const data = await response.json()
+                if(data.data === 'Done'){
+                    window.location.href="/api/";
+                }
+                }catch(e){
+                    console.log(e)
+                }
+                
+                // console.log(response, response.json())
+                //     if(data==='done') {
+                //     window.location.href="/api/";
+                // }
+            })
+  
+        }
+        
+    };
+</script>
+</body>
+</html>
